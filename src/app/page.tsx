@@ -1,20 +1,35 @@
+import Link from "next/link"
 import { Martini, Search, SlidersHorizontal } from "lucide-react"
 
 import { DrinkCard } from "@/components/drinks/drink-card"
 import { drinks } from "@/src/data/drinks"
+import type { DrinkCategory } from "@/src/types/drink"
 
-const categoryLabel: Record<string, string> = {
+const categoryLabel: Record<DrinkCategory, string> = {
+  cocktail: "Cocktails",
   beer: "Beer",
+  wine: "Wine",
+  spirit: "Spirits",
   soft: "Soft Drinks",
 }
 
-const categoryOrder = ["soft", "beer"]
+const categoryOrder: DrinkCategory[] = ["soft", "beer"]
 
-export default function Home() {
+type HomeProps = {
+  searchParams: Promise<{
+    category?: string
+  }>
+}
+
+export default async function Home({ searchParams }: HomeProps) {
+  const params = await searchParams
   const availableDrinks = drinks.filter((drink) => drink.available)
   const availableCategories = categoryOrder.filter((category) =>
     availableDrinks.some((drink) => drink.category === category)
   )
+  const selectedCategory = availableCategories.includes(params.category as DrinkCategory)
+    ? (params.category as DrinkCategory)
+    : "all"
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -39,24 +54,37 @@ export default function Home() {
           </div>
 
           <nav className="scrollbar-none flex items-center gap-2 overflow-x-auto pb-1">
-            {["All", ...availableCategories.map((category) => categoryLabel[category])].map((category, index) => (
-              <button
+            <Link
+              href="/"
+              className={[
+                "inline-flex shrink-0 items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-xs uppercase tracking-[0.08em]",
+                selectedCategory === "all"
+                  ? "border-primary/80 bg-primary text-primary-foreground"
+                  : "border-border bg-card/50 text-muted-foreground",
+              ].join(" ")}
+            >
+              <Martini className="size-3" />
+              All
+            </Link>
+
+            {availableCategories.map((category) => (
+              <Link
                 key={category}
+                href={`/?category=${category}`}
                 className={[
-                  "inline-flex shrink-0 items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-xs uppercase tracking-[0.08em]",
-                  index === 0
+                  "inline-flex shrink-0 items-center rounded-full border px-3.5 py-1.5 text-xs uppercase tracking-[0.08em]",
+                  selectedCategory === category
                     ? "border-primary/80 bg-primary text-primary-foreground"
                     : "border-border bg-card/50 text-muted-foreground",
                 ].join(" ")}
               >
-                {index === 0 && <Martini className="size-3" />}
-                {category}
-              </button>
+                {categoryLabel[category]}
+              </Link>
             ))}
           </nav>
         </header>
 
-        {availableCategories.map((category, index) => {
+        {(selectedCategory === "all" ? availableCategories : [selectedCategory]).map((category, index) => {
           const sectionDrinks = availableDrinks.filter((drink) => drink.category === category)
 
           return (
@@ -79,7 +107,11 @@ export default function Home() {
 
               <div className="space-y-3">
                 {sectionDrinks.map((drink) => (
-                  <DrinkCard key={`${drink.name}-${drink.image}`} drink={drink} />
+                  <DrinkCard
+                    key={`${drink.name}-${drink.image}`}
+                    drink={drink}
+                    href={`/drinks/${encodeURIComponent(drink.name)}`}
+                  />
                 ))}
               </div>
             </section>
