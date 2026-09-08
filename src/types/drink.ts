@@ -15,4 +15,5 @@ export type Drink = {
   facts: string[]
   image: string
   available: boolean
+  surpriseEligible: boolean
 }

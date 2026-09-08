@@ -14,6 +14,7 @@ export const drinks: Drink[] = [
 			"Tomorrow-you says thank you",
 		],
 		image: "/drinks/wasser.webp",
+		surpriseEligible: false,
 		available: true,
 	},
 	{
@@ -29,6 +30,7 @@ export const drinks: Drink[] = [
 			"Gone suspiciously fast",
 		],
 		image: "/drinks/spezi-033.webp",
+		surpriseEligible: true,
 		available: true,
 	},
 	{
@@ -44,6 +46,7 @@ export const drinks: Drink[] = [
 			"Sharing is technically possible",
 		],
 		image: "/drinks/spezi-05.webp",
+		surpriseEligible: true,
 		available: true,
 	},
 	{
@@ -59,6 +62,7 @@ export const drinks: Drink[] = [
 			"Best served properly cold",
 		],
 		image: "/drinks/schoenbuch-kristallweizen.webp",
+		surpriseEligible: true,
 		available: true,
 	},
 	{
@@ -74,6 +78,7 @@ export const drinks: Drink[] = [
 			"One may lead to another",
 		],
 		image: "/drinks/schoenbuch-jaeger-spezial.webp",
+		surpriseEligible: true,
 		available: true,
 	},
 	{
@@ -89,6 +94,7 @@ export const drinks: Drink[] = [
 			"The designated driver's champagne",
 		],
 		image: "/drinks/saskia-mineralwasser.webp",
+		surpriseEligible: false,
 		available: true,
 	},
 	{
@@ -104,6 +110,7 @@ export const drinks: Drink[] = [
 			"Pairs beautifully with questionable spirits",
 		],
 		image: "/drinks/freeway-cola-dose.webp",
+		surpriseEligible: true,
 		available: true,
 	},
 	{
@@ -119,6 +126,7 @@ export const drinks: Drink[] = [
 			"Dangerously refreshing",
 		],
 		image: "/drinks/sprite.webp",
+		surpriseEligible: true,
 		available: true,
 	},
 	{
@@ -134,6 +142,7 @@ export const drinks: Drink[] = [
 			"Suspiciously orange",
 		],
 		image: "/drinks/fanta.webp",
+		surpriseEligible: true,
 		available: true,
 	},
 	{
@@ -149,6 +158,7 @@ export const drinks: Drink[] = [
 			"No introduction necessary",
 		],
 		image: "/drinks/coca-cola.webp",
+		surpriseEligible: true,
 		available: true,
 	},
 	{
@@ -164,6 +174,7 @@ export const drinks: Drink[] = [
 			"For guests with excellent curiosity",
 		],
 		image: "/drinks/cockta-original.webp",
+		surpriseEligible: true,
 		available: true,
 	},
 ]
