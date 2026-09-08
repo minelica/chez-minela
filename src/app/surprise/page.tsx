@@ -218,7 +218,6 @@ export default function SurprisePage() {
                       variant="outline"
                       className="h-11 w-full rounded-full border-border bg-card/30"
                       onClick={rollDrink}
-                      disabled={stage === "rolling"}
                     >
                       <Dices className="size-4" />
                       Try again
