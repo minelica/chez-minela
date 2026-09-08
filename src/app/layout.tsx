@@ -1,5 +1,6 @@
 import { Geist, Cormorant_Garamond } from "next/font/google"
 import { BottomNav } from "@/components/navigation/bottom-nav"
+import { FavoritesProvider } from "@/components/favorites/favorites-provider"
 
 import "./globals.css"
 
@@ -24,8 +25,10 @@ export default function RootLayout({
       <body
         className={`${geist.variable} ${cormorant.variable}`}
       >
-        {children}
-        <BottomNav />
+        <FavoritesProvider>
+          {children}
+          <BottomNav />
+        </FavoritesProvider>
       </body>
     </html>
   )

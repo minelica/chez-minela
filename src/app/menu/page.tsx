@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { Martini, Search, SlidersHorizontal } from "lucide-react"
+import { ChevronLeft, Martini } from "lucide-react"
 
 import { DrinkCard } from "@/components/drinks/drink-card"
 import { drinks } from "@/src/data/drinks"
@@ -30,32 +30,43 @@ export default async function MenuPage({ searchParams }: MenuPageProps) {
   const selectedCategory = availableCategories.includes(params.category as DrinkCategory)
     ? (params.category as DrinkCategory)
     : "all"
+  const sectionCategories = selectedCategory === "all" ? availableCategories : [selectedCategory]
+
+  const buildFilterHref = (category?: DrinkCategory) => {
+    const queryString = new URLSearchParams()
+
+    if (category) {
+      queryString.set("category", category)
+    }
+
+    const serialized = queryString.toString()
+    return serialized ? `/menu?${serialized}` : "/menu"
+  }
 
   return (
     <div className="min-h-screen bg-background text-foreground">
       <main className="mx-auto flex w-full max-w-md flex-col gap-6 px-4 pb-8 pt-5 sm:px-5">
         <header className="space-y-4">
           <div className="flex items-center justify-between">
-            <button
-              aria-label="Filter"
+            <Link
+              href="/"
+              aria-label="Back to first impression"
               className="inline-flex size-9 items-center justify-center rounded-full border border-border/80 bg-card/60 text-muted-foreground"
             >
-              <SlidersHorizontal className="size-4" />
-            </button>
+              <ChevronLeft className="size-4" />
+            </Link>
 
             <p className="font-heading text-3xl leading-none tracking-tight">Chez Minela</p>
 
-            <button
-              aria-label="Search"
-              className="inline-flex size-9 items-center justify-center rounded-full border border-border/80 bg-card/60 text-muted-foreground"
-            >
-              <Search className="size-4" />
-            </button>
+            <span
+              aria-hidden="true"
+              className="inline-flex size-9 rounded-full border border-transparent"
+            />
           </div>
 
           <nav className="scrollbar-none flex items-center gap-2 overflow-x-auto pb-1">
             <Link
-              href="/menu"
+              href={buildFilterHref()}
               className={[
                 "inline-flex shrink-0 items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-xs uppercase tracking-[0.08em]",
                 selectedCategory === "all"
@@ -70,7 +81,7 @@ export default async function MenuPage({ searchParams }: MenuPageProps) {
             {availableCategories.map((category) => (
               <Link
                 key={category}
-                href={`/menu?category=${category}`}
+                href={buildFilterHref(category)}
                 className={[
                   "inline-flex shrink-0 items-center rounded-full border px-3.5 py-1.5 text-xs uppercase tracking-[0.08em]",
                   selectedCategory === category
@@ -84,8 +95,12 @@ export default async function MenuPage({ searchParams }: MenuPageProps) {
           </nav>
         </header>
 
-        {(selectedCategory === "all" ? availableCategories : [selectedCategory]).map((category, index) => {
+        {sectionCategories.map((category, index) => {
           const sectionDrinks = availableDrinks.filter((drink) => drink.category === category)
+
+          if (sectionDrinks.length === 0) {
+            return null
+          }
 
           return (
             <section className="space-y-3" key={category}>
@@ -100,9 +115,14 @@ export default async function MenuPage({ searchParams }: MenuPageProps) {
                   </h2>
                 )}
 
-                <button className="text-xs uppercase tracking-[0.14em] text-muted-foreground">
-                  See all
-                </button>
+                {selectedCategory === "all" && (
+                  <Link
+                    href={buildFilterHref(category)}
+                    className="text-xs uppercase tracking-[0.14em] text-muted-foreground"
+                  >
+                    See all
+                  </Link>
+                )}
               </div>
 
               <div className="space-y-3">
