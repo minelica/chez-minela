@@ -1,4 +1,5 @@
 import { Geist, Cormorant_Garamond } from "next/font/google"
+import { BottomNav } from "@/components/navigation/bottom-nav"
 
 import "./globals.css"
 
@@ -24,6 +25,7 @@ export default function RootLayout({
         className={`${geist.variable} ${cormorant.variable}`}
       >
         {children}
+        <BottomNav />
       </body>
     </html>
   )
